@@ -1,14 +1,12 @@
-# ALU Campus Tracker
+![ALU Campus Wallet Logo](src/assets/logo-readme.png)
 
 - Author: Samuel Hezekiah Epodoi (h.epodoi@alustudent.com)
 - Cohort 2: Front End Web Application Development
 - Figma UI Wireframe: [coming soon]
 
-## Brand Guide
+## Design System / UI Logic
 
-- Primary color: [coming soon]
-- Secondary color: [coming soon]
-- Logo: [coming soon]
+![ALU Campus Wallet Design System](src/assets/design-system.jpg)
 
 ## Overview
 
@@ -17,7 +15,7 @@ ALU Campus Wallet is my Front End Responsive UI Summative Project that essential
 ## Setup Guide
 
 1. Clone the repo
-2. Open index.html file thats on the project rool
+2. Open index.html file thats on the project root
 
 
 
