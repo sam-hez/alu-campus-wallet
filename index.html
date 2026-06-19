@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALU Campus Wallet</title>
+    <link rel="icon" type="image/png" href="src/assets/fav.png">
+    
+
+    <!-- link to the css stylesheet + google font + mobile responsive css -->
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/responsive.css">
 </head>
 <body>
     
+    <header>
+        <div class="logo">
+            <img src="src/assets/logo.png" alt="ALU Campus logo">
+        </div>
+       
+        <button class="mobile-nav-opener" aria-label="Open navigation">☰</button>
+    </header>
+
+    <nav aria-label="Main Navigation items">
+         
+    </nav>
+
     <main>
-        ALU Campus Wallet
+
+        <section id="dashboard" class="page active" aria-labelledby="dashboard-heading"></section>
+        <section id="records" class="page" aria-labelledby="records-heading"></section>
+        <section id="settings" class="page" aria-labelledby="settings-heading"></section>
+        <section id="about" class="page" aria-labelledby="about-heading"></section>
+
     </main>
+
+    <div id="record-modal" class="modal" aria-hidden="true"></div>
+
+
+    <footer class="footer">
+        <p>(Copyright) 2026 ALU Campus Wallet - Made by <a href="https://github.com/sam-hez/alu-campus-wallet">Samuel Epodoi - h.epodoi@alustudent.com</a></p>
+    </footer>
+
+
+
+<!--Link javascript files-->
+  <script src="src/scripts/storage.js"></script>
+  <script src="src/scripts/state.js"></script>
+  <script src="src/scripts/validators.js"></script>
+  <script src="src/scripts/search.js"></script>
+  <script src="src/scripts/ui.js"></script>
 
 </body>
 </html>

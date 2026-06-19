@@ -21,7 +21,14 @@ ALU Campus Wallet is my Front End Responsive UI Summative Project that essential
 
 ## Features List
 
-COMING SOON
+- add, edit, delete finance records
+- search records using regex
+- sort records by date, description, and amount
+- Dashboard with total spent, top category, and budget remaining
+- Save records using localStorage
+- Import and export JSON data
+- Responsive layout for mobile, tablet, and desktop
+- Keyboard-friendly navigation
 
 ## Regex Catalog
 
