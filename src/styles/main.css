@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Montserrat;
+}
+
+body {
+  background: #f4f7fb;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+:focus {
+  outline: 3px solid #2589ee;
+  outline-offset: 2px;
+}
+
+.header {
+  background: #0d2f69;
+  color: white;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.logo-campus-wallet {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+.logo {
+  display: block;
+  width: 220px;
+  max-width: 60vw;
+  height: auto;
+  object-fit: contain;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 44px;
+  min-height: 44px;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  background: transparent;
+  border-bottom: 0;
+}
+
+.nav.open {
+  display: flex;
+}
+
+.nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  
+}
+
+.nav a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-family: montserrat;
+  font-weight: 400;
+  font-size: 14px;
+  
+}
+
+.nav a.active {
+  background: white;
+  color: #0d2f69;
+  font-weight: 600;
+}
+
+
+
+
+
+/*Main Page Area Styles*/
+
+main {
+  padding: 16px;
+}
+
+.page {
+  display: none;
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.page.active {
+  display: block;
+}
+
+
+
+
+
+
+
+/*Footer Styles*/
+.footer {
+  margin-top: 20px;
+  padding: 16px;
+  text-align: center;
+  background: #0d2f69;
+  color: white;
+}
+
+
+.footer a {
+  color: white;
+  font-weight: 700;
+}
+
+
+
+

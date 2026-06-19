@@ -14,20 +14,29 @@
     <link rel="stylesheet" href="src/styles/responsive.css">
 </head>
 <body>
-    
-    <header>
-        <div class="logo">
-            <img src="src/assets/logo.png" alt="ALU Campus logo">
-        </div>
-       
-        <button class="mobile-nav-opener" aria-label="Open navigation">☰</button>
-    </header>
 
-    <nav aria-label="Main Navigation items">
-         
+
+ <header class="header">
+    <a class="logo-campus-wallet" href="#" aria-label="ALU Campus Wallet home">
+      <img src="src/assets/logo-white.png" alt="ALU Campus Wallet logo" class="logo" />
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false">☰</button>
+
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
+        <li><a href="#" class="nav-link" data-page="records">Records</a></li>
+        <li><a href="#" id="open-record-modal">Add Record</a></li>
+        <li><a href="#" class="nav-link" data-page="settings">Settings</a></li>
+        <li><a href="#" class="nav-link" data-page="about">About</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <main>
+
+
+    <main id="main-content">
 
         <section id="dashboard" class="page active" aria-labelledby="dashboard-heading"></section>
         <section id="records" class="page" aria-labelledby="records-heading"></section>
@@ -36,7 +45,7 @@
 
     </main>
 
-    <div id="record-modal" class="modal" aria-hidden="true"></div>
+    <div id="record-popup" class="popup" aria-hidden="true"></div>
 
 
     <footer class="footer">
