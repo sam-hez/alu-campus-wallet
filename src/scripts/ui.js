@@ -16,20 +16,23 @@ const formStatus = document.querySelector("#form-status");
 let lastFocusedElement = null;
 
 
-// nav mobile responsive toggle function
-if (navToggle && siteNav) {
-
-  navToggle.addEventListener("click", function() {
-    const isOpen = siteNav.classList.toggle("open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  siteNav.addEventListener("click", function(event) {
-    if (event.target.closest("a") && window.matchMedia("(max-width: 760px)").matches) {
-      siteNav.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
+// function to closes the mobile navigation menu
+function closeMobileNav() {
+    if (siteNav) {
+        siteNav.classList.remove("open");
     }
-  });
+
+    if (navToggle) {
+        navToggle.setAttribute("aria-expanded", "false");
+    }
+}
+
+// open or closes the mobile menu
+if (navToggle && siteNav) {
+    navToggle.addEventListener("click", function () {
+        const isOpen = siteNav.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
 }
 
 // change pages function
