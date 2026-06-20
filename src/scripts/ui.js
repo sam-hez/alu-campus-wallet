@@ -192,7 +192,7 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// later validate and save the transaction here
+// ** validate and save the transaction here ** //
 if (recordForm) {
     recordForm.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -219,6 +219,20 @@ if (recordForm) {
         }
     });
 }
+
+
+// checks the form while the user types
+function  validateWhileTyping() {
+    clearFormErrors();
+    const rawRecord = getRecordFromForm();
+    const errors = Validators.validateRecord(rawRecord);
+    showFormErrors(errors);
+}
+
+descriptionInput.addEventListener("input", validateWhileTyping);
+amountInput.addEventListener("input", validateWhileTyping);
+categoryInput.addEventListener("input", validateWhileTyping);
+dateInput.addEventListener("input", validateWhileTyping);
 
 
 
