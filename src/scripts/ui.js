@@ -1,11 +1,10 @@
-// Main navigation elements
+// select main navigation elements
 const navToggle = document.querySelector("#nav-toggle");
 const siteNav = document.querySelector("#nav");
 const navLinks = document.querySelectorAll(".nav-link");
 const pages = document.querySelectorAll(".page");
 
-
-// Transaction popup elements
+// select transaction popup elements
 const addButton = document.querySelector(".new-transaction-btn");
 const recordPopup = document.querySelector("#record-popup");
 const closePopupButton = document.querySelector("#close-record-popup");
@@ -16,12 +15,12 @@ const formStatus = document.querySelector("#form-status");
 let lastFocusedElement = null;
 
 
+
 // function to closes the mobile navigation menu
 function closeMobileNav() {
     if (siteNav) {
         siteNav.classList.remove("open");
     }
-
     if (navToggle) {
         navToggle.setAttribute("aria-expanded", "false");
     }
@@ -35,14 +34,32 @@ if (navToggle && siteNav) {
     });
 }
 
-// change pages function
-navToggle.addEventListener("click", function() {
+// shows one page and hides the others pages
+function showPage(pageId) {
+    let i;
+    for (i = 0; i < pages.length; i++) {
+        if (pages[i].id === pageId) {
+            pages[i].classList.add("active");
+        } else {
+            pages[i].classList.remove("active");
+        }
+    }
+    for (i = 0; i < navLinks.length; i++) {
+        if (navLinks[i].getAttribute("data-page") === pageId) {
+            navLinks[i].classList.add("active");
+        } else {
+            navLinks[i].classList.remove("active");
+        }
+    }
+    closeMobileNav();
+}
 
-});
-
-
-
-// open popup form 
-
-
+// connects each nav link to the correct page
+for (let i = 0; i < navLinks.length; i++) {
+    navLinks[i].addEventListener("click", function (event) {
+        event.preventDefault();
+        const pageId = this.getAttribute("data-page");
+        showPage(pageId);
+    });
+}
 
