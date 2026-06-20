@@ -74,7 +74,7 @@
             <!-- budget progress bar -->
             <div class="panel budgetProgress">
                 <h2>Budget Progress</h2>
-                <p id="budget-status" role="status">Budget status will appear here later.</p>
+                <p id="budget-status" role="status" aria-live="polite">Budget status will appear here later.</p>
             </div>
         </section>
 
@@ -140,9 +140,9 @@
                     <option value="USD">USD</option>
                 </select>
 
-                <label>UGX Rate</label><input id="usd-rate" type="text" placeholder="2490">
+                <label>UGX Rate</label><input id="ugxrate" type="text" placeholder="2490">
 
-                <label>USD Rate</label><input id="eur-rate" type="text" placeholder="1464">
+                <label>USD Rate</label><input id="usdrate" type="text" placeholder="1464">
 
                 <button type="button" id="save-settings-btn">Save Settings</button>
                 <p id="settings-status" role="status" aria-live="polite">Settings are ready.</p>
@@ -225,11 +225,11 @@
     <footer class="footerbox"><p>(Copyright) 2026 ALU Campus Wallet - Made by <a href="https://github.com/sam-hez/alu-campus-wallet" target="_blank">Samuel Epodoi - h.epodoi@alustudent.com</a></p></footer>
 
     <!-- js files-->
-    <script src="src/scripts/ui.js"></script>
     <script src="src/scripts/storage.js"></script>
     <script src="src/scripts/state.js"></script>
     <script src="src/scripts/validators.js"></script>
     <script src="src/scripts/search.js"></script>
+    <script src="src/scripts/ui.js"></script>
     
 </body>
 </html>
