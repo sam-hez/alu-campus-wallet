@@ -76,3 +76,31 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 640px) {
+    table, thead, tbody, tr, td {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+    }
+}
+
+@media (min-width: 360px) {
+    /* small phone improvements */
+}
+
+@media (min-width: 768px) {
+    /* tablet > two columns */
+}
+
+@media (min-width: 1024px) {
+    /* desktop  wider dashboard */
+}

@@ -15,13 +15,16 @@
 </head>
 <body>
 
+    <!-- Skip to content accessibility link-->
+    <a href="#maincontentarea" class="skip-link">Skip to main content</a>
+
     <!-- navigation bar -->
     <header class="header">
         <a class="logo-campus-wallet" href="#" aria-label="ALU Campus Wallet home">
         <img src="src/assets/logo-white.png" alt="ALU Campus Wallet logo" class="logo" />
         </a>
 
-        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false">☰</button>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="nav" aria-expanded="false">☰</button>
 
         <nav class="nav" id="nav" aria-label="Main navigation">
         <ul>
@@ -128,7 +131,23 @@
 
 
     <!-- NEW RECORD POPUP-->
-    <div class="recordpopup"></div>
+    <div class="recordpopup">
+        <label>Description</label>
+        <input id="record-description" type="text">
+        <small id="description-error" class="error-text"></small>
+
+        <label>Amount</label>
+        <input id="record-amount" type="text">
+        <small id="amount-error" class="error-text"></small>
+
+        <label>Category</label>
+        <input id="record-category" type="text">
+        <small id="category-error" class="error-text"></small>
+
+        <label>Date</label>
+        <input id="record-date" type="date">
+        <small id="date-error" class="error-text"></small>
+    </div>
 
 
     <!-- FOOTER -->
