@@ -127,6 +127,41 @@ function closeRecordPopup() {
     }
 }
 
+// get the current values from the form
+function getRecordFromForm() {
+    return {
+        description: descriptionInput.value,
+        amount: amountInput.value,
+        category: categoryInput.value,
+        date: dateInput.value
+    };
+}
+
+//  clear old form errors before checking again
+function clearFormErrors() {
+    descriptionError.textContent = "";
+    amountError.textContent = "";
+    categoryError.textContent = "";
+    dateError.textContent = "";
+
+    if (formStatus) {
+        formStatus.textContent = "";
+    }
+}
+
+// put validation errors under the correct fields
+function showFormErrors(errors) {
+    descriptionError.textContent = errors.description || "";
+    amountError.textContent = errors.amount || "";
+    categoryError.textContent = errors.category || "";
+    dateError.textContent = errors.date || "";
+}
+
+// check if the errors object has any error inside it
+function hasErrors(errors) {
+    return Object.keys(errors).length > 0;
+}
+
 // Close popup when clicking the X button
 if (closePopupButton) {
     closePopupButton.addEventListener("click", function () {
