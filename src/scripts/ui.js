@@ -16,6 +16,7 @@ let lastFocusedElement = null;
 
 
 
+/*NAVBAR LOGIC*/
 // function to closes the mobile navigation menu
 function closeMobileNav() {
     if (siteNav) {
@@ -63,7 +64,19 @@ for (let i = 0; i < navLinks.length; i++) {
     });
 }
 
+// connect the add button on nav to the popup
+if (addButton) {
+    addButton.addEventListener("click", function (event) {
+        event.preventDefault();
 
+        closeMobileNav();
+        openRecordPopup();
+    });
+}
+
+
+
+/*POPUP BOX LOGIC*/
 // function to open the transaction popup box
 function openRecordPopup() {
     if (!recordPopup) {
@@ -88,13 +101,49 @@ function openRecordPopup() {
     }
 }
 
-// connect the + Add button on nav to the popup
-if (addButton) {
-    addButton.addEventListener("click", function (event) {
-        event.preventDefault();
+/*  close the transaction popup*/
+function closeRecordPopup() {
+    if (!recordPopup) {
+        return;
+    }
 
-        closeMobileNav();
-        openRecordPopup();
+    recordPopup.classList.remove("show");
+    recordPopup.setAttribute("aria-hidden", "true");
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
+}
+
+// Close popup when clicking the X button
+if (closePopupButton) {
+    closePopupButton.addEventListener("click", function () {
+        closeRecordPopup();
     });
 }
+
+// close popup when clicking Cancel
+if (cancelPopupButton) {
+    cancelPopupButton.addEventListener("click", function () {
+        closeRecordPopup();
+    });
+}
+
+// Close popup when clicking the dark background outside the form box
+if (recordPopup) {
+    recordPopup.addEventListener("click", function (event) {
+        if (event.target === recordPopup) {
+            closeRecordPopup();
+        }
+    });
+}
+
+// Close popup when pressing Escape
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && recordPopup && recordPopup.classList.contains("show")) {
+        closeRecordPopup();
+    }
+});
+
+
 
