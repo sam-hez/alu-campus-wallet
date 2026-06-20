@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALU Campus Wallet</title>
+    
+    <title>ALU Campus Wallet - Take Control of your Finances </title>
     <link rel="icon" type="image/png" href="src/assets/fav.png">
     
-
     <!-- link to the css stylesheet + google font + mobile responsive css -->
     <link rel="stylesheet" href="src/styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -15,51 +15,131 @@
 </head>
 <body>
 
+    <!-- navigation bar -->
+    <header class="header">
+        <a class="logo-campus-wallet" href="#" aria-label="ALU Campus Wallet home">
+        <img src="src/assets/logo-white.png" alt="ALU Campus Wallet logo" class="logo" />
+        </a>
 
- <header class="header">
-    <a class="logo-campus-wallet" href="#" aria-label="ALU Campus Wallet home">
-      <img src="src/assets/logo-white.png" alt="ALU Campus Wallet logo" class="logo" />
-    </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false">☰</button>
 
-    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false">☰</button>
-
-    <nav class="nav" id="nav" aria-label="Main navigation">
-      <ul>
-        <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
-        <li><a href="#" class="nav-link" data-page="records">Records</a></li>
-        <li><a href="#" id="open-record-modal">Add Record</a></li>
-        <li><a href="#" class="nav-link" data-page="settings">Settings</a></li>
-        <li><a href="#" class="nav-link" data-page="about">About</a></li>
-      </ul>
-    </nav>
-  </header>
+        <nav class="nav" id="nav" aria-label="Main navigation">
+        <ul>
+            <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
+            <li><a href="#" class="nav-link" data-page="records">Transactions</a></li>
+            <li><a href="#" class="new-transaction-btn">+ Add</a></li>
+            <li><a href="#" class="nav-link" data-page="settings">⚙ Settings</a></li>
+            <li><a href="#" class="nav-link" data-page="about">? About</a></li>
+        </ul>
+        </nav>
+    </header>
 
 
+    <!-- main content area-->
+    <main id="maincontentarea">
 
-    <main id="main-content">
+        <!-- 1. DASHBOARD PAGE -->
+        <section id="dashboard" class="page active" >
 
-        <section id="dashboard" class="page active" aria-labelledby="dashboard-heading"></section>
-        <section id="records" class="page" aria-labelledby="records-heading"></section>
-        <section id="settings" class="page" aria-labelledby="settings-heading"></section>
-        <section id="about" class="page" aria-labelledby="about-heading"></section>
+            <!-- statistics cards -->
+            <div class="stgrid">
+                <article class="stcard"><h3>Total Spend</h3><p id="totalspent">0 {{currency}}</p></article>
+                <article class="stcard"><h3>Budget Left</h3><p id="remainingbudget">0 {{currency}}</p></article>
+                <article class="stcard"><h3>Highest Expense Category</h3><p id="highestexpense">None</p></article>
+            </div>
+
+            <!-- spending linechart -->
+            <div class="recentSpending">
+                <div id="chart" class="chart"></div>
+            </div>
+
+            <!-- categories donutchart -->
+            <div class="expenseCategories">
+                <div id="chart" class="chart"></div>
+            </div>
+
+            <div class="recentRecords"></div>
+            <div class="budgetProgress"></div>
+
+        </section>
+
+        <!-- 2. RECORDS PAGE -->
+        <section id="records" class="page">
+
+            <!-- regex search / sort controls -->
+            <div class="recordControls">
+                <div><label>Search</label><input type="text" placeholder="Search Records" /></div>
+                <div>
+                    <label>Sort By</label>
+                    <select>
+                        <option>Newest</option>
+                        <option>Oldest</option>
+                        <option>Lowest to Highest</option>
+                        <option>Highest to Lowest</option>
+                    </select>
+                </div>
+                <label><input type="checkbox"/> Case sensitive</label>
+            </div>
+
+            <!-- table area to display records data-->
+            <div class="recordsTable">
+                <table>
+                    <thead>
+                        <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Expense Category</th>
+                        <th>Perform Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recordsTableBody">
+                        <tr>
+                            <td colspan="5">No records yet. Add your first transaction.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- 3. SETTINGS PAGE -->
+        <section id="settings" class="page">
+            <h2>Settings</h2> 
+        </section>
+
+        <!-- 4. ABOUT PAGE -->
+        <section id="about" class="page">
+            <h2>About</h2>
+            <div class="contentarea">
+                <p>
+                ALU Campus Wallet is a simple finance tracker made for ALU students.
+                It helps students record expenses, search transactions, and check if they are staying within their budget
+                </p>
+   
+                <p><strong>Author:</strong> Samuel Hezekiah Epodoi</p> 
+                <p><strong>Cohort 2:</strong> Front End Web Application Development</p>
+                <p><strong>Email:</strong> h.epodoi@alustudent.com</p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/sam-hez" target="_blank">GitHub Profile</a></p>
+            </div>
+        </section>
 
     </main>
 
-    <div id="record-popup" class="popup" aria-hidden="true"></div>
+
+    <!-- NEW RECORD POPUP-->
+    <div class="recordpopup"></div>
 
 
-    <footer class="footer">
-        <p>(Copyright) 2026 ALU Campus Wallet - Made by <a href="https://github.com/sam-hez/alu-campus-wallet">Samuel Epodoi - h.epodoi@alustudent.com</a></p>
-    </footer>
+    <!-- FOOTER -->
+    <footer class="footerbox"><p>(Copyright) 2026 ALU Campus Wallet - Made by <a href="https://github.com/sam-hez/alu-campus-wallet" target="_blank">Samuel Epodoi - h.epodoi@alustudent.com</a></p></footer>
 
-
-
-<!--Link javascript files-->
-  <script src="src/scripts/storage.js"></script>
-  <script src="src/scripts/state.js"></script>
-  <script src="src/scripts/validators.js"></script>
-  <script src="src/scripts/search.js"></script>
-  <script src="src/scripts/ui.js"></script>
-
+    <!-- js files-->
+    <script src="src/scripts/ui.js"></script>
+    <script src="src/scripts/storage.js"></script>
+    <script src="src/scripts/state.js"></script>
+    <script src="src/scripts/validators.js"></script>
+    <script src="src/scripts/search.js"></script>
+    
 </body>
 </html>

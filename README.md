@@ -28,7 +28,7 @@ ALU Campus Wallet is my Front End Responsive UI Summative Project that essential
 - Save records using localStorage
 - Import and export JSON data
 - Responsive layout for mobile, tablet, and desktop
-- Keyboard-friendly navigation
+- Keyboard friendly navigation
 
 ## Regex Catalog
 
