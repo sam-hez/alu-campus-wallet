@@ -131,7 +131,7 @@
             <div class="panel">
                 <h2>Budget Settings</h2>
 
-                <label>Budget Limit</label><input id="budget-cap" type="text" placeholder="120000">
+                <label>Budget Limit</label><input id="budget-cap" type="text" placeholder="118000">
 
                 <label>Base Currency</label>
                 <select id="base-currency">
@@ -178,22 +178,38 @@
 
 
     <!-- NEW RECORD POPUP-->
-    <div class="recordpopup">
-        <label>Description</label>
-        <input id="record-description" type="text">
-        <small id="description-error" class="error-text"></small>
+    <div class="recordpopup" id="record-popup" role="dialog" aria-modal="true" aria-labelledby="record-popup-title" aria-hidden="true">
+        <div class="recordpopup-box">
+            <div class="recordpopup-head">
+                <h2 id="record-popup-title">Add Transaction</h2>
+                <button id="close-record-popup" type="button" aria-label="Close transaction form">×</button>
+            </div>
 
-        <label>Amount</label>
-        <input id="record-amount" type="text">
-        <small id="amount-error" class="error-text"></small>
+            <form id="record-form">
+                <label for="record-description">Description</label>
+                <input id="record-description" type="text">
+                <small id="description-error" class="error-text"></small>
 
-        <label>Category</label>
-        <input id="record-category" type="text">
-        <small id="category-error" class="error-text"></small>
+                <label for="record-amount">Amount</label>
+                <input id="record-amount" type="text">
+                <small id="amount-error" class="error-text"></small>
 
-        <label>Date</label>
-        <input id="record-date" type="date">
-        <small id="date-error" class="error-text"></small>
+                <label for="record-category">Category</label>
+                <input id="record-category" type="text">
+                <small id="category-error" class="error-text"></small>
+
+                <label for="record-date">Date</label>
+                <input id="record-date" type="date">
+                <small id="date-error" class="error-text"></small>
+
+                <div class="form-actions">
+                    <button type="submit">Save Transaction</button>
+                    <button id="cancel-record-popup" type="button">Cancel</button>
+                </div>
+
+                <p id="form-status" role="status" aria-live="polite"></p>
+            </form>
+        </div>
     </div>
 
 
