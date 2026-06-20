@@ -22,6 +22,11 @@ const dateInput = document.querySelector("#record-date");
 const recordsTableBody = document.querySelector("#recordsTableBody");
 const recordsStatus = document.querySelector("#records-status");
 
+// search and sort controls
+const searchInput = document.querySelector("#search-input");
+const sortSelect = document.querySelector("#sort-select");
+const caseToggle = document.querySelector("#case-toggle");
+
 // transaction form error messages
 const descriptionError = document.querySelector("#description-error");
 const amountError = document.querySelector("#amount-error");
@@ -220,6 +225,54 @@ function findRecordById(id) {
     return foundRecord;
 }
 
+// sort transactions based on the selected option //
+function sortRecords(list) {
+    const sortedList = list.slice();
+    const sortMode = sortSelect.value;
+
+    sortedList.sort(function (a, b) {
+        if (sortMode === "newest") {return b.date.localeCompare(a.date);}
+        if (sortMode === "oldest") {return a.date.localeCompare(b.date);}
+        if (sortMode === "low-high") {return a.amount - b.amount;}
+        if (sortMode === "high-low") {return b.amount - a.amount;}
+        return 0;
+    });
+
+    return sortedList;
+}
+
+//filter transactions using the regex search box
+function getVisibleRecords() {
+    const searchText = searchInput.value;
+    const caseSensitive = caseToggle.checked;
+    const searchResult = Search.compileRegex(searchText, caseSensitive);
+
+    if (searchResult.error) {
+        if (recordsStatus) {
+            recordsStatus.textContent = "Invalid regex: " + searchResult.error;
+        }
+        return sortRecords(records);
+    }
+    if (!searchResult.regex) {
+        return sortRecords(records);
+    }
+
+    const filtered = [];
+    for (let i = 0; i < records.length; i++) {
+        const textToSearch = records[i].description + " " +
+            records[i].amount + " " +
+            records[i].category + " " +
+            records[i].date;
+
+        searchResult.regex.lastIndex = 0;
+
+        if (searchResult.regex.test(textToSearch)) {
+            filtered.push(records[i]);
+        }
+    }
+    return sortRecords(filtered);
+}
+
 // show all transactions in the table
 function renderRecords() {
     if (records.length === 0) {
@@ -232,17 +285,31 @@ function renderRecords() {
         return;
     }
 
+    const visibleRecords = getVisibleRecords();
+    const searchResult = Search.compileRegex(searchInput.value, caseToggle.checked);
+    const activeRegex = searchResult.error ? null : searchResult.regex;
+
+    if (visibleRecords.length === 0) {
+        recordsTableBody.innerHTML = "<tr><td colspan='5'>No matching transactions.</td></tr>";
+
+        if (recordsStatus) {
+            recordsStatus.textContent = "No matching transactions.";
+        }
+
+        return;
+    }
+
     let rows = "";
 
-    for (let i = 0; i < records.length; i++) {
+    for (let i = 0; i < visibleRecords.length; i++) {
         rows = rows + "<tr>" +
-            "<td data-label='Description'>" + records[i].description + "</td>" +
-            "<td data-label='Amount'>" + formatMoney(records[i].amount) + "</td>" +
-            "<td data-label='Expense Category'>" + records[i].category + "</td>" +
-            "<td data-label='Date'>" + records[i].date + "</td>" +
+            "<td data-label='Description'>" + Search.highlightText(visibleRecords[i].description, activeRegex) + "</td>" +
+            "<td data-label='Amount'>" + Search.highlightText(formatMoney(visibleRecords[i].amount), activeRegex) + "</td>" +
+            "<td data-label='Expense Category'>" + Search.highlightText(visibleRecords[i].category, activeRegex) + "</td>" +
+            "<td data-label='Date'>" + Search.highlightText(visibleRecords[i].date, activeRegex) + "</td>" +
             "<td data-label='Perform Action'>" +
-                "<button type='button' data-edit='" + records[i].id + "'>Edit</button> " +
-                "<button type='button' data-delete='" + records[i].id + "'>Delete</button>" +
+                "<button type='button' data-edit='" + visibleRecords[i].id + "'>Edit</button> " +
+                "<button type='button' data-delete='" + visibleRecords[i].id + "'>Delete</button>" +
             "</td>" +
         "</tr>";
     }
@@ -250,7 +317,11 @@ function renderRecords() {
     recordsTableBody.innerHTML = rows;
 
     if (recordsStatus) {
-        recordsStatus.textContent = records.length + " transaction(s) shown.";
+        if (searchResult.error) {
+            recordsStatus.textContent = "Invalid regex: " + searchResult.error;
+        } else {
+            recordsStatus.textContent = visibleRecords.length + " transaction(s) shown.";
+        }
     }
 }
 
@@ -373,6 +444,19 @@ descriptionInput.addEventListener("input", validateWhileTyping);
 amountInput.addEventListener("input", validateWhileTyping);
 categoryInput.addEventListener("input", validateWhileTyping);
 dateInput.addEventListener("input", validateWhileTyping);
+
+// update table when user searches or changes sorting
+searchInput.addEventListener("input", function () {
+    renderRecords();
+});
+
+caseToggle.addEventListener("change", function () {
+    renderRecords();
+});
+
+sortSelect.addEventListener("change", function () {
+    renderRecords();
+});
 
 // show the empty table message when the page first opens
 renderRecords();
