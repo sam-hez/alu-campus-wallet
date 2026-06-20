@@ -197,8 +197,25 @@ if (recordForm) {
     recordForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
+        clearFormErrors();
+
+        const rawRecord = getRecordFromForm();
+        const errors = Validators.validateRecord(rawRecord);
+
+        if (hasErrors(errors)) {
+            showFormErrors(errors);
+
+            if (formStatus) {
+                formStatus.textContent = "Please fix the form errors before saving.";
+            }
+
+            return;
+        }
+
+        const cleanRecord = Validators.prepareRecord(rawRecord);
+
         if (formStatus) {
-            formStatus.textContent = "Form is connected. Validation and saving will be added next.";
+            formStatus.textContent = "Valid transaction: " + cleanRecord.description + " - " + cleanRecord.amount + " RWF.";
         }
     });
 }
