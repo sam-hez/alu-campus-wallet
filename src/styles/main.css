@@ -176,6 +176,110 @@ main {
 }
 
 
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    background: white;
+    color: #0d2f69;
+    padding: 10px 14px;
+    font-weight: 700;
+    transform: translateY(-150%);
+    z-index: 1000;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+button,
+input,
+select {
+    font-family: Montserrat;
+    padding: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 3px solid #f2c94c;
+    outline-offset: 3px;
+}
+
+.recordControls {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.recordControls div {
+    display: grid;
+    gap: 6px;
+}
+
+.recordsTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recordsTable th,
+.recordsTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.recordsTable th {
+    background: #0d2f69;
+    color: white;
+}
+
+.recordpopup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 47, 105, 0.75);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.recordpopup.show {
+    display: flex;
+}
+
+.recordpopup-box {
+    background: white;
+    width: min(520px, 100%);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.recordpopup-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+#record-form {
+    display: grid;
+    gap: 8px;
+}
+
+.error-text {
+    color: #b42318;
+    min-height: 18px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
 /*ANIMATIONS*/
 @keyframes fadeIn {
   from {
