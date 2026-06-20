@@ -18,6 +18,10 @@ const amountInput = document.querySelector("#record-amount");
 const categoryInput = document.querySelector("#record-category");
 const dateInput = document.querySelector("#record-date");
 
+// records table elements
+const recordsTableBody = document.querySelector("#recordsTableBody");
+const recordsStatus = document.querySelector("#records-status");
+
 // transaction form error messages
 const descriptionError = document.querySelector("#description-error");
 const amountError = document.querySelector("#amount-error");
@@ -25,6 +29,12 @@ const categoryError = document.querySelector("#category-error");
 const dateError = document.querySelector("#date-error");
 // remember the button/link the user clicked before the popup opened **
 let lastFocusedElement = null;
+
+// temporary records array before localStorage is added
+let records = [];
+
+// store id of records being edited
+let editingRecordId = "";
 
 
 
@@ -90,7 +100,7 @@ if (addButton) {
 
 /*POPUP BOX LOGIC*/
 // function to open the transaction popup box
-function openRecordPopup() {
+function openRecordPopup(record) {
     if (!recordPopup) {
         return;
     }
@@ -100,17 +110,32 @@ function openRecordPopup() {
     recordPopup.setAttribute("aria-hidden", "false");
 
     const popupTitle = document.querySelector("#record-popup-title");
-    const dateInput = document.querySelector("#record-date");
-    const descriptionInput = document.querySelector("#record-description");
-    if (popupTitle) {
-        popupTitle.textContent = "Add Transaction";
-    }
-    if (dateInput) {
+
+    clearFormErrors();
+
+    if (record) {
+        editingRecordId = record.id;
+
+        if (popupTitle) {
+            popupTitle.textContent = "Edit Transaction";
+        }
+
+        descriptionInput.value = record.description;
+        amountInput.value = record.amount;
+        categoryInput.value = record.category;
+        dateInput.value = record.date;
+    } else {
+        editingRecordId = "";
+
+        if (popupTitle) {
+            popupTitle.textContent = "Add Transaction";
+        }
+
+        recordForm.reset();
         dateInput.value = new Date().toISOString().slice(0, 10);
     }
-    if (descriptionInput) {
-        descriptionInput.focus();
-    }
+
+    descriptionInput.focus();
 }
 
 /*  close the transaction popup*/
@@ -162,6 +187,73 @@ function hasErrors(errors) {
     return Object.keys(errors).length > 0;
 }
 
+// create a simple id for each transaction
+function makeRecordId() {
+    return "txn_" + Date.now();
+}
+
+// show money in RWF format
+function formatMoney(amount) {
+    return Number(amount).toLocaleString() + " RWF";
+}
+
+// clear the form after saving or editing
+function clearRecordForm() {
+    recordForm.reset();
+    editingRecordId = "";
+
+    if (formStatus) {
+        formStatus.textContent = "";
+    }
+}
+
+// find one transaction using its id
+function findRecordById(id) {
+    let foundRecord = null;
+
+    for (let i = 0; i < records.length; i++) {
+        if (records[i].id === id) {
+            foundRecord = records[i];
+        }
+    }
+
+    return foundRecord;
+}
+
+// show all transactions in the table
+function renderRecords() {
+    if (records.length === 0) {
+        recordsTableBody.innerHTML = "<tr><td colspan='5'>No records yet. Add your first transaction.</td></tr>";
+
+        if (recordsStatus) {
+            recordsStatus.textContent = "No transactions to show.";
+        }
+
+        return;
+    }
+
+    let rows = "";
+
+    for (let i = 0; i < records.length; i++) {
+        rows = rows + "<tr>" +
+            "<td data-label='Description'>" + records[i].description + "</td>" +
+            "<td data-label='Amount'>" + formatMoney(records[i].amount) + "</td>" +
+            "<td data-label='Expense Category'>" + records[i].category + "</td>" +
+            "<td data-label='Date'>" + records[i].date + "</td>" +
+            "<td data-label='Perform Action'>" +
+                "<button type='button' data-edit='" + records[i].id + "'>Edit</button> " +
+                "<button type='button' data-delete='" + records[i].id + "'>Delete</button>" +
+            "</td>" +
+        "</tr>";
+    }
+
+    recordsTableBody.innerHTML = rows;
+
+    if (recordsStatus) {
+        recordsStatus.textContent = records.length + " transaction(s) shown.";
+    }
+}
+
 // Close popup when clicking the X button
 if (closePopupButton) {
     closePopupButton.addEventListener("click", function () {
@@ -192,7 +284,7 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// ** validate and save the transaction here ** //
+// ** validate and save the transaction temporarily ** //
 if (recordForm) {
     recordForm.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -213,13 +305,61 @@ if (recordForm) {
         }
 
         const cleanRecord = Validators.prepareRecord(rawRecord);
+        const now = new Date().toISOString();
 
-        if (formStatus) {
-            formStatus.textContent = "Valid transaction: " + cleanRecord.description + " - " + cleanRecord.amount + " RWF.";
+        if (editingRecordId) {
+            const oldRecord = findRecordById(editingRecordId);
+
+            if (oldRecord) {
+                oldRecord.description = cleanRecord.description;
+                oldRecord.amount = Number(cleanRecord.amount);
+                oldRecord.category = cleanRecord.category;
+                oldRecord.date = cleanRecord.date;
+                oldRecord.updatedAt = now;
+            }
+        } else {
+            cleanRecord.id = makeRecordId();
+            cleanRecord.amount = Number(cleanRecord.amount);
+            cleanRecord.createdAt = now;
+            cleanRecord.updatedAt = now;
+
+            records.push(cleanRecord);
         }
+
+        renderRecords();
+        clearRecordForm();
+        closeRecordPopup();
+        showPage("records");
     });
 }
 
+// handle edit and delete buttons in the table
+if (recordsTableBody) {
+    recordsTableBody.addEventListener("click", function (event) {
+        const editId = event.target.getAttribute("data-edit");
+        const deleteId = event.target.getAttribute("data-delete");
+
+        if (editId) {
+            const record = findRecordById(editId);
+
+            if (record) {
+                openRecordPopup(record);
+            }
+        }
+
+        if (deleteId) {
+            const shouldDelete = confirm("Delete this transaction?");
+
+            if (shouldDelete) {
+                records = records.filter(function (record) {
+                    return record.id !== deleteId;
+                });
+
+                renderRecords();
+            }
+        }
+    });
+}
 
 // checks the form while the user types
 function  validateWhileTyping() {
@@ -234,5 +374,5 @@ amountInput.addEventListener("input", validateWhileTyping);
 categoryInput.addEventListener("input", validateWhileTyping);
 dateInput.addEventListener("input", validateWhileTyping);
 
-
-
+// show the empty table message when the page first opens
+renderRecords();
