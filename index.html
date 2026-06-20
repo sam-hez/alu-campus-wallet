@@ -125,8 +125,37 @@
 
 
         <!-- 3. SETTINGS PAGE -->
-        <section id="settings" class="page">
-            <h2>Settings</h2> 
+        <section id="settings" class="page" aria-labelledby="settings-title">
+            
+            <h1 id="settings-title">My Campus Wallet Settings</h1>
+            <div class="panel">
+                <h2>Budget Settings</h2>
+
+                <label>Budget Limit</label><input id="budget-cap" type="text" placeholder="120000">
+
+                <label>Base Currency</label>
+                <select id="base-currency">
+                    <option value="RWF">RWF</option>
+                    <option value="UGX">UGX</option>
+                    <option value="USD">USD</option>
+                </select>
+
+                <label>UGX Rate</label><input id="usd-rate" type="text" placeholder="2490">
+
+                <label>USD Rate</label><input id="eur-rate" type="text" placeholder="1464">
+
+                <button type="button" id="save-settings-btn">Save Settings</button>
+                <p id="settings-status" role="status" aria-live="polite">Settings are ready.</p>
+            </div>
+
+            <div class="panel">
+                <h2>Data Management</h2>
+                <button type="button" id="export-btn">Export JSON</button>
+
+                <label>Import JSON</label><input id="import-input" type="file" accept=".json">
+
+                <p id="import-status" role="status" aria-live="polite">Import and export will be connected later.</p>
+            </div>
         </section>
 
         <!-- 4. ABOUT PAGE -->
