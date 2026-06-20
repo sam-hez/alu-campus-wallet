@@ -42,28 +42,39 @@
     <main id="maincontentarea">
 
         <!-- 1. DASHBOARD PAGE -->
-        <section id="dashboard" class="page active" >
+        <section id="dashboard" class="page active" aria-labelledby="dashboard-title">
+            <h1 id="dashboard-title">Dashboard</h1>
 
             <!-- statistics cards -->
             <div class="stgrid">
-                <article class="stcard"><h3>Total Spend</h3><p id="totalspent">0 {{currency}}</p></article>
-                <article class="stcard"><h3>Budget Left</h3><p id="remainingbudget">0 {{currency}}</p></article>
+                <article class="stcard"><h3>Total Spend</h3><p id="totalspent">0 RWF</p></article>
+                <article class="stcard"><h3>Budget Left</h3><p id="remainingbudget">0 RWF</p></article>
                 <article class="stcard"><h3>Highest Expense Category</h3><p id="highestexpense">None</p></article>
             </div>
 
             <!-- spending linechart -->
-            <div class="recentSpending">
-                <div id="chart" class="chart"></div>
+            <div class="panel recentSpending">
+                <h2>Recent Spending</h2>
+                <div id="spending-chart" class="chart">Chart will appear here later.</div>
             </div>
 
             <!-- categories donutchart -->
-            <div class="expenseCategories">
-                <div id="chart" class="chart"></div>
+            <div class="panel expenseCategories">
+                <h2>Expense Categories</h2>
+                <div id="category-chart" class="chart">Category chart will appear here later.</div>
             </div>
 
-            <div class="recentRecords"></div>
-            <div class="budgetProgress"></div>
+            <!-- recent records table -->
+            <div class="panel recentRecords">
+                <h2>Recent Transactions</h2>
+                <p>Recent transactions will appear here later.</p>
+            </div>
 
+            <!-- budget progress bar -->
+            <div class="panel budgetProgress">
+                <h2>Budget Progress</h2>
+                <p id="budget-status" role="status">Budget status will appear here later.</p>
+            </div>
         </section>
 
         <!-- 2. RECORDS PAGE -->
