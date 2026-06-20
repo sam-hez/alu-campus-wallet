@@ -1,6 +1,19 @@
+// Main navigation elements
 const navToggle = document.querySelector("#nav-toggle");
 const siteNav = document.querySelector("#nav");
+const navLinks = document.querySelectorAll(".nav-link");
 const pages = document.querySelectorAll(".page");
+
+
+// Transaction popup elements
+const addButton = document.querySelector(".new-transaction-btn");
+const recordPopup = document.querySelector("#record-popup");
+const closePopupButton = document.querySelector("#close-record-popup");
+const cancelPopupButton = document.querySelector("#cancel-record-popup");
+const recordForm = document.querySelector("#record-form");
+const formStatus = document.querySelector("#form-status");
+// remember the button/link the user clicked before the popup opened **
+let lastFocusedElement = null;
 
 
 // nav mobile responsive toggle function
