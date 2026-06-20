@@ -2,7 +2,7 @@
 
 - Author: Samuel Hezekiah Epodoi (h.epodoi@alustudent.com)
 - Cohort 2: Front End Web Application Development
-- Figma UI Wireframe: [coming soon]
+- Figma UI Wireframe: https://www.figma.com/design/Sdkxpyrt6oZZRoOUaSFTRE/ALU-Campus-Wallet
 
 ## Design System / UI Logic
 
@@ -17,7 +17,9 @@ ALU Campus Wallet is my Front End Responsive UI Summative Project that essential
 1. Clone the repo
 2. Open index.html file thats on the project root
 
+## Testing Guide
 
+COMING SOON
 
 ## Features List
 
@@ -42,10 +44,6 @@ COMING SOON
 
 COMING SOON
 
-## Testing Instructions
 
-COMING SOON
-
----
-
+![ALU Campus Wallet UI](src/assets/ui.jpg)
 
