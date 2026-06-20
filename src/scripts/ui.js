@@ -145,5 +145,16 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+// later validate and save the transaction here
+if (recordForm) {
+    recordForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (formStatus) {
+            formStatus.textContent = "Form is connected. Validation and saving will be added next.";
+        }
+    });
+}
+
 
 
