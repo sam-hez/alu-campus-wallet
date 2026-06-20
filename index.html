@@ -41,6 +41,7 @@
     <!-- main content area-->
     <main id="maincontentarea">
 
+
         <!-- 1. DASHBOARD PAGE -->
         <section id="dashboard" class="page active" aria-labelledby="dashboard-title">
             <h1 id="dashboard-title">Dashboard</h1>
@@ -77,33 +78,37 @@
             </div>
         </section>
 
-        <!-- 2. RECORDS PAGE -->
-        <section id="records" class="page">
 
-            <!-- regex search / sort controls -->
+        <!-- 2. RECORDS PAGE -->
+        <section id="records" class="page" aria-labelledby="records-title">
+
+            <h1 id="records-title">Transactions</h1>
             <div class="recordControls">
-                <div><label>Search</label><input type="text" placeholder="Search Records" /></div>
+
+                <div><label>Search</label><input id="search-input" type="text" placeholder="Search Records"></div>
+
                 <div>
                     <label>Sort By</label>
-                    <select>
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Lowest to Highest</option>
-                        <option>Highest to Lowest</option>
+                    <select id="sort-select">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="low-high">Lowest to Highest</option>
+                        <option value="high-low">Highest to Lowest</option>
                     </select>
                 </div>
-                <label><input type="checkbox"/> Case sensitive</label>
+
+                <label><input id="case-toggle" type="checkbox">Turn on Case Sensitive</label>
             </div>
 
-            <!-- table area to display records data-->
             <div class="recordsTable">
                 <table>
                     <thead>
                         <tr>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Expense Category</th>
-                        <th>Perform Action</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Expense Category</th>
+                            <th>Date</th>
+                            <th>Perform Action</th>
                         </tr>
                     </thead>
 
@@ -115,7 +120,9 @@
                 </table>
             </div>
 
+            <p id="records-status" role="status" aria-live="polite">transaction page is ready.</p>
         </section>
+
 
         <!-- 3. SETTINGS PAGE -->
         <section id="settings" class="page">
