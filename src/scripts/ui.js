@@ -63,3 +63,38 @@ for (let i = 0; i < navLinks.length; i++) {
     });
 }
 
+
+// function to open the transaction popup box
+function openRecordPopup() {
+    if (!recordPopup) {
+        return;
+    }
+    lastFocusedElement = document.activeElement;
+
+    recordPopup.classList.add("show");
+    recordPopup.setAttribute("aria-hidden", "false");
+
+    const popupTitle = document.querySelector("#record-popup-title");
+    const dateInput = document.querySelector("#record-date");
+    const descriptionInput = document.querySelector("#record-description");
+    if (popupTitle) {
+        popupTitle.textContent = "Add Transaction";
+    }
+    if (dateInput) {
+        dateInput.value = new Date().toISOString().slice(0, 10);
+    }
+    if (descriptionInput) {
+        descriptionInput.focus();
+    }
+}
+
+// connect the + Add button on nav to the popup
+if (addButton) {
+    addButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        closeMobileNav();
+        openRecordPopup();
+    });
+}
+
