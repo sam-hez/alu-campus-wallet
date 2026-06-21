@@ -1,12 +1,78 @@
-@media (min-width: 780px) {
-    .nav {
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: left;
-  background: transparent;
-  border-bottom: 0;
-  margin-left: 30vh;
+@media (min-width: 1100px) {
+  .header {
+    position: sticky;
+  }
+
+  .nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    border-bottom: 0;
+    margin-left: 0;
+    pointer-events: none;
+  }
+
+  .nav ul {
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .nav li {
+    pointer-events: auto;
+  }
+
+  .nav li:nth-child(4) {
+    position: absolute;
+    right: 150px;
+  }
+
+  .nav li:nth-child(5) {
+    position: absolute;
+    right: 28px;
+  }
 }
+
+@media (min-width: 780px) and (max-width: 1099px) {
+  .header {
+    flex-wrap: nowrap;
+    gap: 14px;
+  }
+
+  .logo {
+    width: 185px;
+  }
+
+  .nav {
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: auto;
+  }
+
+  .nav ul {
+    width: auto;
+    gap: 12px;
+    justify-content: flex-end;
+    pointer-events: auto;
+  }
+
+  .nav a {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .new-transaction-btn {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
 }
 
 
@@ -26,15 +92,18 @@
 
   .nav {
     display: none;
+    position: static;
+    transform: none;
     flex: 1 0 100%;
     width: 100%;
     background: white;
-    border-radius: 10px;
     padding: 12px;
+    pointer-events: auto;
   }
 
   .nav.open {
     display: block;
+    animation: popupIn .18s ease-out;
   }
 
   .nav ul {
@@ -43,6 +112,15 @@
     justify-items: center;
     gap: 12px;
     width: 100%;
+  }
+
+  .nav li:nth-child(4) {
+    position: static;
+    margin-left: 0;
+  }
+
+  .nav li:nth-child(5) {
+    position: static;
   }
 
   .nav a {
@@ -103,4 +181,52 @@
 
 @media (min-width: 1024px) {
     /* desktop  wider dashboard */
+}
+
+
+@media (min-width: 900px) {
+  .panels-dash {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  #dashboard .recentSpending,
+  #dashboard .recentRecords {
+    flex: 1 1 55%;
+  }
+
+  #dashboard .expenseCategories,
+  #dashboard .budgetProgress {
+    flex: 1 1 34%;
+  }
+}
+
+@media (max-width: 760px) {
+  .recordControls {
+    display: block;
+  }
+
+  .recordControls > label {
+    margin-top: 12px;
+  }
+
+  #dashboard.page.active{
+    padding-top: 20px;
+    background-size: 100% 220px!important;
+
+  }
+
+  .panels-dash {
+    margin: 20px 0;
+  }
+
+  #settings,
+  #settings .panel,
+  #about {
+    width: 100%;
+  }
+
+  .settings-field {
+    width: 100%;
+  }
 }

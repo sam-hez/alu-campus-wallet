@@ -31,8 +31,8 @@
             <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
             <li><a href="#" class="nav-link" data-page="records">Transactions</a></li>
             <li><a href="#" class="new-transaction-btn">+ Add</a></li>
-            <li><a href="#" class="nav-link" data-page="settings">⚙ Settings</a></li>
-            <li><a href="#" class="nav-link" data-page="about">? About</a></li>
+            <li><a href="#" class="nav-link" data-page="settings"><span class="nav-icon1">⚙</span> Settings</a></li>
+            <li><a href="#" class="nav-link" data-page="about"><span class="nav-icon2">?</span> About</a></li>
         </ul>
         </nav>
     </header>
@@ -44,7 +44,7 @@
 
         <!-- 1. DASHBOARD PAGE -->
         <section id="dashboard" class="page active" aria-labelledby="dashboard-title">
-            <h1 id="dashboard-title">Dashboard</h1>
+            <!--<h1 id="dashboard-title">Dashboard</h1>-->
 
             <!-- statistics cards -->
             <div class="stgrid">
@@ -53,29 +53,35 @@
                 <article class="stcard"><h3>Highest Expense Category</h3><p id="highestexpense">None</p></article>
             </div>
 
-            <!-- spending linechart -->
-            <div class="panel recentSpending">
-                <h2>Recent Spending</h2>
-                <div id="spending-chart" class="chart">Chart will appear here later.</div>
+            <div class="panels-dash">
+                <!-- spending linechart -->
+                <div class="panel recentSpending">
+                    <h2>Recent Spending</h2>
+                    <div id="spending-chart" class="chart">Chart will appear here later.</div>
+                </div>
+
+                <!-- categories donutchart -->
+                <div class="panel expenseCategories">
+                    <h2>Expense Categories</h2>
+                    <div id="category-chart" class="chart">Category chart will appear here later.</div>
+                </div>
+
+                <!-- recent records table -->
+                <div class="panel recentRecords">
+                    <h2>Recent Transactions</h2>
+                    <p><span id="totalrecords">0</span> total transactions recorded.</p>
+                    <p>Recent transactions will appear here later.</p>
+                </div>
+
+                <!-- budget progress bar -->
+                <div class="panel budgetProgress">
+                    <h2>Budget Progress</h2>
+                    <div class="budget-bar-wrap"><div id="budget-bar"></div></div>
+                    <p id="budget-status" role="status" aria-live="polite">Budget status will appear here later.</p>
+                </div>
             </div>
 
-            <!-- categories donutchart -->
-            <div class="panel expenseCategories">
-                <h2>Expense Categories</h2>
-                <div id="category-chart" class="chart">Category chart will appear here later.</div>
-            </div>
 
-            <!-- recent records table -->
-            <div class="panel recentRecords">
-                <h2>Recent Transactions</h2>
-                <p>Recent transactions will appear here later.</p>
-            </div>
-
-            <!-- budget progress bar -->
-            <div class="panel budgetProgress">
-                <h2>Budget Progress</h2>
-                <p id="budget-status" role="status" aria-live="polite">Budget status will appear here later.</p>
-            </div>
         </section>
 
 
@@ -92,12 +98,14 @@
                     <select id="sort-select">
                         <option value="newest">Newest</option>
                         <option value="oldest">Oldest</option>
+                        <option value="az">Description A to Z</option>
+                        <option value="za">Description Z to A</option>
                         <option value="low-high">Lowest to Highest</option>
                         <option value="high-low">Highest to Lowest</option>
                     </select>
                 </div>
 
-                <label><input id="case-toggle" type="checkbox">Turn on Case Sensitive</label>
+                <label><input id="case-toggle" type="checkbox">switch on Case Sensitive</label>
             </div>
 
             <div class="recordsTable">
@@ -131,18 +139,29 @@
             <div class="panel">
                 <h2>Budget Settings</h2>
 
-                <label>Budget Limit</label><input id="budget-cap" type="text" placeholder="118000">
+                <div class="settings-field">
+                    <label>Budget Limit</label>
+                    <input id="budget-cap" type="text" placeholder="118000">
+                </div>
 
-                <label>Base Currency</label>
-                <select id="base-currency">
-                    <option value="RWF">RWF</option>
-                    <option value="UGX">UGX</option>
-                    <option value="USD">USD</option>
-                </select>
+                <div class="settings-field">
+                    <label>Base Currency</label>
+                    <select id="base-currency">
+                        <option value="RWF">RWF</option>
+                        <option value="UGX">UGX</option>
+                        <option value="USD">USD</option>
+                    </select>
+                </div>
 
-                <label>UGX Rate</label><input id="ugxrate" type="text" placeholder="2490">
+                <div class="settings-field">
+                    <label>UGX Rate</label>
+                    <input id="ugxrate" type="text" placeholder="2490">
+                </div>
 
-                <label>USD Rate</label><input id="usdrate" type="text" placeholder="1464">
+                <div class="settings-field">
+                    <label>USD Rate</label>
+                    <input id="usdrate" type="text" placeholder="1464">
+                </div>
 
                 <button type="button" id="save-settings-btn">Save Settings</button>
                 <p id="settings-status" role="status" aria-live="polite">Settings are ready.</p>
@@ -166,18 +185,18 @@
                 ALU Campus Wallet is a simple finance tracker made for ALU students.
                 It helps students record expenses, search transactions, and check if they are staying within their budget
                 </p>
-   
+                <br>
                 <p><strong>Author:</strong> Samuel Hezekiah Epodoi</p> 
                 <p><strong>Cohort 2:</strong> Front End Web Application Development</p>
                 <p><strong>Email:</strong> h.epodoi@alustudent.com</p>
-                <p><strong>GitHub:</strong> <a href="https://github.com/sam-hez" target="_blank">GitHub Profile</a></p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/sam-hez" target="_blank">https://github.com/sam-hez</a></p>
             </div>
             
             <br>
             <h2>Academic Integrity</h2>
                 <p>
                     I confirm that this project was completed by me. Any outside resources used for design,
-                    documentation, or accessibility checks have been acknowledged where needed.
+                    documentation have been acknowledged where needed in the readme
                 </p>
         </section>
 
@@ -194,9 +213,6 @@
 
 
             <form id="record-form">
-                <label>Description</label>
-                <input id="record-description" type="text">
-                <small id="description-error" class="error-text"></small>
 
                 <label>Amount</label>
                 <input id="record-amount" type="number">
@@ -205,6 +221,10 @@
                 <label>Category</label>
                 <input id="record-category" type="text">
                 <small id="category-error" class="error-text"></small>
+
+                <label>Description</label>
+                <input id="record-description" type="text">
+                <small id="description-error" class="error-text"></small>
 
                 <label>Date</label>
                 <input id="record-date" type="date">

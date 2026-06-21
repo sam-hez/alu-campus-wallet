@@ -1,0 +1,109 @@
+{
+  "settings": {
+    "budgetCap": 118000,
+    "currency": "RWF",
+    "ugxRate": 2490,
+    "usdRate": 1464
+  },
+  "records": [
+    {
+      "id": "seed_001",
+      "description": "Coffee with friends",
+      "amount": 2500,
+      "category": "Food",
+      "date": "2026-06-15",
+      "createdAt": "2026-06-15T08:10:00.000Z",
+      "updatedAt": "2026-06-15T08:10:00.000Z"
+    },
+    {
+      "id": "seed_002",
+      "description": "Bus to campus",
+      "amount": 1200,
+      "category": "Transport",
+      "date": "2026-06-16",
+      "createdAt": "2026-06-16T07:30:00.000Z",
+      "updatedAt": "2026-06-16T07:30:00.000Z"
+    },
+    {
+      "id": "seed_003",
+      "description": "Notebook and pens",
+      "amount": 4500,
+      "category": "School",
+      "date": "2026-06-17",
+      "createdAt": "2026-06-17T12:00:00.000Z",
+      "updatedAt": "2026-06-17T12:00:00.000Z"
+    },
+    {
+      "id": "seed_004",
+      "description": "Lunch at campus",
+      "amount": 3500,
+      "category": "Food",
+      "date": "2026-06-18",
+      "createdAt": "2026-06-18T11:45:00.000Z",
+      "updatedAt": "2026-06-18T11:45:00.000Z"
+    },
+    {
+      "id": "seed_005",
+      "description": "Mobile data bundle",
+      "amount": 1000,
+      "category": "Utilities",
+      "date": "2026-06-19",
+      "createdAt": "2026-06-19T18:20:00.000Z",
+      "updatedAt": "2026-06-19T18:20:00.000Z"
+    },
+    {
+      "id": "seed_006",
+      "description": "Group project printing",
+      "amount": 800,
+      "category": "School",
+      "date": "2026-06-20",
+      "createdAt": "2026-06-20T09:40:00.000Z",
+      "updatedAt": "2026-06-20T09:40:00.000Z"
+    },
+    {
+      "id": "seed_007",
+      "description": "Weekend groceries",
+      "amount": 18500,
+      "category": "Food",
+      "date": "2026-06-21",
+      "createdAt": "2026-06-21T10:00:00.000Z",
+      "updatedAt": "2026-06-21T10:00:00.000Z"
+    },
+    {
+      "id": "seed_008",
+      "description": "Emergency taxi",
+      "amount": 90000,
+      "category": "Transport",
+      "date": "2026-01-01",
+      "createdAt": "2026-01-01T20:15:00.000Z",
+      "updatedAt": "2026-01-01T20:15:00.000Z"
+    },
+    {
+      "id": "seed_009",
+      "description": "Library card replacement",
+      "amount": 50,
+      "category": "School",
+      "date": "2026-12-31",
+      "createdAt": "2026-12-31T14:35:00.000Z",
+      "updatedAt": "2026-12-31T14:35:00.000Z"
+    },
+    {
+      "id": "seed_010",
+      "description": "Regex practice book",
+      "amount": 12500,
+      "category": "School",
+      "date": "2026-06-14",
+      "createdAt": "2026-06-14T16:05:00.000Z",
+      "updatedAt": "2026-06-14T16:05:00.000Z"
+    },
+    {
+      "id": "seed_011",
+      "description": "Water refill",
+      "amount": 300,
+      "category": "Utilities",
+      "date": "2026-06-21",
+      "createdAt": "2026-06-21T13:25:00.000Z",
+      "updatedAt": "2026-06-21T13:25:00.000Z"
+    }
+  ]
+}

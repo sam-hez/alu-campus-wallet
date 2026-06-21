@@ -12,7 +12,7 @@ const cancelPopupButton = document.querySelector("#cancel-record-popup");
 const recordForm = document.querySelector("#record-form");
 const formStatus = document.querySelector("#form-status");
 
-// transaction form input fields
+//Transaction form input fields
 const descriptionInput = document.querySelector("#record-description");
 const amountInput = document.querySelector("#record-amount");
 const categoryInput = document.querySelector("#record-category");
@@ -27,7 +27,26 @@ const searchInput = document.querySelector("#search-input");
 const sortSelect = document.querySelector("#sort-select");
 const caseToggle = document.querySelector("#case-toggle");
 
-// transaction form error messages
+// dashboard and settings elements
+const totalSpent = document.querySelector("#totalspent");
+const remainingBudget = document.querySelector("#remainingbudget");
+const highestExpense = document.querySelector("#highestexpense");
+const spendingChart = document.querySelector("#spending-chart");
+const categoryChart = document.querySelector("#category-chart");
+const budgetStatus = document.querySelector("#budget-status");
+const budgetBar = document.querySelector("#budget-bar");
+const recentRecordsBox = document.querySelector(".recentRecords");
+const budgetCapInput = document.querySelector("#budget-cap");
+const baseCurrencySelect = document.querySelector("#base-currency");
+const ugxRateInput = document.querySelector("#ugxrate");
+const usdRateInput = document.querySelector("#usdrate");
+const saveSettingsButton = document.querySelector("#save-settings-btn");
+const settingsStatus = document.querySelector("#settings-status");
+const exportButton = document.querySelector("#export-btn");
+const importInput = document.querySelector("#import-input");
+const importStatus = document.querySelector("#import-status");
+
+//Transaction form error messages
 const descriptionError = document.querySelector("#description-error");
 const amountError = document.querySelector("#amount-error");
 const categoryError = document.querySelector("#category-error");
@@ -35,11 +54,49 @@ const dateError = document.querySelector("#date-error");
 // remember the button/link the user clicked before the popup opened **
 let lastFocusedElement = null;
 
-// temporary records array before localStorage is added
+// app records loaded from browser storage
 let records = [];
 
 // store id of records being edited
 let editingRecordId = "";
+
+// app settings loaded from browser storage
+let settings = State.getDefaultSettings();
+
+function saveAppData() {
+    Storage.saveData(State.makeAppData(records, settings));
+}
+
+function loadAppData() {
+    const savedData = Storage.loadData();
+
+    if (!savedData) {
+        return;
+    }
+
+    const preparedData = State.prepareImportedData(savedData);
+
+    if (!preparedData.error) {
+        records = preparedData.data.records;
+        settings = preparedData.data.settings;
+    }
+}
+
+function getSettingsFromForm() {
+    return State.prepareSettings({
+        budgetCap: budgetCapInput.value,
+        currency: baseCurrencySelect.value,
+        ugxRate: ugxRateInput.value,
+        usdRate: usdRateInput.value
+    });
+}
+
+function updateSettingsFields() {
+    budgetCapInput.value = settings.budgetCap;
+    baseCurrencySelect.value = settings.currency;
+    ugxRateInput.value = settings.ugxRate;
+    usdRateInput.value = settings.usdRate;
+}
 
 
 
@@ -102,7 +159,6 @@ if (addButton) {
 }
 
 
-
 /*POPUP BOX LOGIC*/
 // function to open the transaction popup box
 function openRecordPopup(record) {
@@ -140,7 +196,7 @@ function openRecordPopup(record) {
         dateInput.value = new Date().toISOString().slice(0, 10);
     }
 
-    descriptionInput.focus();
+    amountInput.focus();
 }
 
 /*  close the transaction popup*/
@@ -192,14 +248,9 @@ function hasErrors(errors) {
     return Object.keys(errors).length > 0;
 }
 
-// create a simple id for each transaction
-function makeRecordId() {
-    return "txn_" + Date.now();
-}
-
-// show money in RWF format
+// show money using the selected settings currency
 function formatMoney(amount) {
-    return Number(amount).toLocaleString() + " RWF";
+    return State.formatMoney(amount, settings);
 }
 
 // clear the form after saving or editing
@@ -212,35 +263,6 @@ function clearRecordForm() {
     }
 }
 
-// find one transaction using its id
-function findRecordById(id) {
-    let foundRecord = null;
-
-    for (let i = 0; i < records.length; i++) {
-        if (records[i].id === id) {
-            foundRecord = records[i];
-        }
-    }
-
-    return foundRecord;
-}
-
-// sort transactions based on the selected option //
-function sortRecords(list) {
-    const sortedList = list.slice();
-    const sortMode = sortSelect.value;
-
-    sortedList.sort(function (a, b) {
-        if (sortMode === "newest") {return b.date.localeCompare(a.date);}
-        if (sortMode === "oldest") {return a.date.localeCompare(b.date);}
-        if (sortMode === "low-high") {return a.amount - b.amount;}
-        if (sortMode === "high-low") {return b.amount - a.amount;}
-        return 0;
-    });
-
-    return sortedList;
-}
-
 //filter transactions using the regex search box
 function getVisibleRecords() {
     const searchText = searchInput.value;
@@ -251,10 +273,10 @@ function getVisibleRecords() {
         if (recordsStatus) {
             recordsStatus.textContent = "Invalid regex: " + searchResult.error;
         }
-        return sortRecords(records);
+        return State.sortRecords(records, sortSelect.value);
     }
     if (!searchResult.regex) {
-        return sortRecords(records);
+        return State.sortRecords(records, sortSelect.value);
     }
 
     const filtered = [];
@@ -270,7 +292,150 @@ function getVisibleRecords() {
             filtered.push(records[i]);
         }
     }
-    return sortRecords(filtered);
+    return State.sortRecords(filtered, sortSelect.value);
+}
+
+// draw a simple svg line chart
+function renderLineChart() {
+    const days = State.getLastSevenDays(records);
+    let max = 0;
+
+    for (let i = 0; i < days.length; i++) {
+        if (days[i].total > max) {
+            max = days[i].total;
+        }
+    }
+
+    if (max === 0) {
+        spendingChart.innerHTML = "No spending data yet.";
+        return;
+    }
+
+    const width = 320;
+    const height = 150;
+    const gap = width / 6;
+    let points = "";
+
+    for (let i = 0; i < days.length; i++) {
+        const x = Math.round(i * gap);
+        const y = Math.round(height - ((days[i].total / max) * 120) - 15);
+        points = points + x + "," + y + " ";
+    }
+
+    spendingChart.innerHTML =
+        "<svg class='line-chart' viewBox='0 0 320 170' role='img' aria-label='Last 7 days spending line chart'>" +
+            "<polyline points='" + points + "' fill='none' stroke='#0d2f69' stroke-width='3'></polyline>" +
+            "<line x1='0' y1='150' x2='320' y2='150' stroke='#d1d5db'></line>" +
+        "</svg>";
+}
+
+// draw a simple donut chart using category totals
+function renderDonutChart() {
+    const totals = State.getCategoryTotals(records);
+    const colors = ["#0d2f69", "#2589EE", "#b9c0f1", "#f2c94c", "#27ae60", "#b42318"];
+    let sum = 0;
+    let colorIndex = 0;
+    let current = 0;
+    let gradient = "";
+
+    for (const category in totals) {
+        sum = sum + totals[category];
+    }
+
+    if (sum === 0) {
+        categoryChart.innerHTML = "No category data yet.";
+        return;
+    }
+
+    for (const category in totals) {
+        const start = current;
+        const end = current + ((totals[category] / sum) * 100);
+        gradient = gradient + colors[colorIndex % colors.length] + " " + start + "% " + end + "%, ";
+        current = end;
+        colorIndex++;
+    }
+
+    gradient = gradient.slice(0, -2);
+
+    categoryChart.innerHTML =
+        "<div class='donut-chart' style='background: conic-gradient(" + gradient + ");'>" +
+            "<div class='donut-hole'></div>" +
+        "</div>" +
+        "<p>Top category: " + Search.escapeHtml(State.getTopCategory(records)) + "</p>";
+}
+
+// show the latest three transactions on dashboard
+function renderRecentRecords() {
+    const recent = State.getRecentRecords(records, 3);
+
+    if (recent.length === 0) {
+        recentRecordsBox.innerHTML = "<h2>Recent Transactions</h2>" +
+            "<p><span id='totalrecords'>" + records.length + "</span> total transactions recorded.</p>" +
+            "<p>Recent transactions will appear here later.</p>";
+        return;
+    }
+
+    let list = "<h2>Recent Transactions</h2>" +
+        "<p><span id='totalrecords'>" + records.length + "</span> total transactions recorded.</p>" +
+        "<ul>";
+
+    for (let i = 0; i < recent.length; i++) {
+        list = list + "<li>" +
+            Search.escapeHtml(recent[i].description) + " - " +
+            formatMoney(recent[i].amount) + " (" +
+            Search.escapeHtml(recent[i].date) + ")" +
+        "</li>";
+    }
+
+    list = list + "</ul>";
+    recentRecordsBox.innerHTML = list;
+}
+
+// show budget bar and live budget message
+function renderBudgetProgress(total) {
+    const left = settings.budgetCap - total;
+    let percent = 0;
+
+    if (settings.budgetCap > 0) {
+        percent = Math.round((total / settings.budgetCap) * 100);
+    }
+
+    if (percent > 100) {
+        percent = 100;
+    }
+
+    budgetBar.style.width = percent + "%";
+
+    if (left >= 0) {
+        budgetBar.style.background = "#0d2f69";
+        budgetStatus.setAttribute("aria-live", "polite");
+        budgetStatus.textContent = formatMoney(left) + " remaining from your budget.";
+    } else {
+        budgetBar.style.background = "#b42318";
+        budgetStatus.setAttribute("aria-live", "assertive");
+        budgetStatus.textContent = "You are over budget by " + formatMoney(Math.abs(left)) + ".";
+    }
+}
+
+// update all dashboard areas
+function renderDashboard() {
+    const total = State.getTotalSpent(records);
+    const left = settings.budgetCap - total;
+
+    totalSpent.textContent = formatMoney(total);
+    remainingBudget.textContent = formatMoney(Math.abs(left));
+
+    if (left >= 0) {
+        remainingBudget.parentElement.querySelector("h3").textContent = "Budget Left";
+    } else {
+        remainingBudget.parentElement.querySelector("h3").textContent = "Over Budget";
+    }
+
+    highestExpense.textContent = State.getTopCategory(records);
+    renderLineChart();
+    renderDonutChart();
+    renderRecentRecords();
+    renderBudgetProgress(total);
 }
 
 // show all transactions in the table
@@ -293,7 +458,7 @@ function renderRecords() {
         recordsTableBody.innerHTML = "<tr><td colspan='5'>No matching transactions.</td></tr>";
 
         if (recordsStatus) {
-            recordsStatus.textContent = "No matching transactions.";
+            recordsStatus.textContent = "0 matching transactions.";
         }
 
         return;
@@ -376,28 +541,16 @@ if (recordForm) {
         }
 
         const cleanRecord = Validators.prepareRecord(rawRecord);
-        const now = new Date().toISOString();
 
         if (editingRecordId) {
-            const oldRecord = findRecordById(editingRecordId);
-
-            if (oldRecord) {
-                oldRecord.description = cleanRecord.description;
-                oldRecord.amount = Number(cleanRecord.amount);
-                oldRecord.category = cleanRecord.category;
-                oldRecord.date = cleanRecord.date;
-                oldRecord.updatedAt = now;
-            }
+            State.updateRecord(records, editingRecordId, cleanRecord);
         } else {
-            cleanRecord.id = makeRecordId();
-            cleanRecord.amount = Number(cleanRecord.amount);
-            cleanRecord.createdAt = now;
-            cleanRecord.updatedAt = now;
-
-            records.push(cleanRecord);
+            State.addRecord(records, cleanRecord);
         }
 
+        saveAppData();
         renderRecords();
+        renderDashboard();
         clearRecordForm();
         closeRecordPopup();
         showPage("records");
@@ -411,7 +564,7 @@ if (recordsTableBody) {
         const deleteId = event.target.getAttribute("data-delete");
 
         if (editId) {
-            const record = findRecordById(editId);
+            const record = State.findRecordById(records, editId);
 
             if (record) {
                 openRecordPopup(record);
@@ -422,11 +575,11 @@ if (recordsTableBody) {
             const shouldDelete = confirm("Delete this transaction?");
 
             if (shouldDelete) {
-                records = records.filter(function (record) {
-                    return record.id !== deleteId;
-                });
+                records = State.deleteRecord(records, deleteId);
 
+                saveAppData();
                 renderRecords();
+                renderDashboard();
             }
         }
     });
@@ -445,18 +598,78 @@ amountInput.addEventListener("input", validateWhileTyping);
 categoryInput.addEventListener("input", validateWhileTyping);
 dateInput.addEventListener("input", validateWhileTyping);
 
-// update table when user searches or changes sorting
-searchInput.addEventListener("input", function () {
-    renderRecords();
-});
+//Update table when user searches or changes sorting
+searchInput.addEventListener("input", function () {renderRecords();});
+caseToggle.addEventListener("change", function () {renderRecords();});
+sortSelect.addEventListener("change", function () {renderRecords();});
 
-caseToggle.addEventListener("change", function () {
-    renderRecords();
-});
+// save settings and update money display
+if (saveSettingsButton) {
+    saveSettingsButton.addEventListener("click", function () {
+        const newSettings = getSettingsFromForm();
+        const settingsError = State.validateSettings(newSettings);
 
-sortSelect.addEventListener("change", function () {
-    renderRecords();
-});
+        if (settingsError) {
+            settingsStatus.textContent = settingsError;
+            return;
+        }
 
-// show the empty table message when the page first opens
+        settings = newSettings;
+        saveAppData();
+        settingsStatus.textContent = "Settings saved.";
+        renderRecords();
+        renderDashboard();
+    });
+}
+
+// export all current app data
+if (exportButton) {
+    exportButton.addEventListener("click", function () {
+        Storage.exportData(State.makeAppData(records, settings));
+
+        if (importStatus) {
+            importStatus.textContent = "Exported your JSON file.";
+        }
+    });
+}
+
+// import records and settings from a json file
+if (importInput) {
+    importInput.addEventListener("change", function () {
+        const file = importInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        Storage.readImportFile(file, function (error, data) {
+            if (error) {
+                importStatus.textContent = error;
+                return;
+            }
+
+            const preparedData = State.prepareImportedData(data);
+
+            if (preparedData.error) {
+                importStatus.textContent = preparedData.error;
+                return;
+            }
+
+            records = preparedData.data.records;
+            settings = preparedData.data.settings;
+            saveAppData();
+            updateSettingsFields();
+            renderRecords();
+            renderDashboard();
+            importStatus.textContent = "Imported " + records.length + " transaction(s).";
+            importInput.value = "";
+        });
+    });
+}
+
+loadAppData();
+updateSettingsFields();
+
+// show  empty table message when the page first opens
 renderRecords();
+renderDashboard();
