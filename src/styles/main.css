@@ -172,7 +172,7 @@ main {
 }
 
 .panels-dash{
-  margin: 35px 55px 20px;
+  margin: 28px 55px 20px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -184,27 +184,29 @@ main {
 }
 
 .chart {
-  min-height: 180px;
+  min-height: 130px;
 }
 
 .line-chart {
   width: 100%;
-  min-height: 180px;
+  height: 230px;
+  min-height: 0;
+  display: block;
 }
 
 .donut-chart {
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  margin: 16px auto;
+  margin: 12px auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .donut-hole {
-  width: 88px;
-  height: 88px;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
   background: #fbfdff;
 }
