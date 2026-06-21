@@ -1,4 +1,4 @@
-// this file saves and loads app data from the browser
+// this file saves and loads app data from the USERS browser
 const Storage = (function () {
     const storageKey = "aluCampusWalletData";
 
@@ -13,8 +13,7 @@ const Storage = (function () {
             return null;
         }
 
-        try {
-            return JSON.parse(savedText);
+        try {return JSON.parse(savedText);
         } catch (error) {
             return null;
         }

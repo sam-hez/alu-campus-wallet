@@ -9,6 +9,7 @@
 - **Repository:** https://github.com/sam-hez/alu-campus-wallet
 - **GitHub Pages:** https://sam-hez.github.io/alu-campus-wallet/
 - **Figma UI Wireframe:** https://www.figma.com/design/Sdkxpyrt6oZZRoOUaSFTRE/ALU-Campus-Wallet
+- **Demo Video:** [comingsoon]
 
 ## Overview
 

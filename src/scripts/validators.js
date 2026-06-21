@@ -19,23 +19,18 @@ const Validators = ( function () {
         if (!descriptionRule.test(record.description)) {
             errors.description = "Do not start or end with spaces.";
         }
-
         if (duplicateWordRule.test(record.description)) {
             errors.description = "Remove repeated words like tea tea.";
         }
-
         if (!amountRule.test(record.amount)) {
-            errors.amount = "Use a number like 2500 or 2500.50.";
+            errors.amount = "use a number like 2500 or 2500.50.";
         }
-
         if (!categoryRule.test(record.category)) {
             errors.category = "use letters spaces and hyphens only.";
         }
-
         if (!dateRule.test(record.date)) {
             errors.date = "Use a valid date";
         }
-
         return errors;
     }
 

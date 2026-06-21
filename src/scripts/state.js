@@ -72,7 +72,6 @@ const State = (function () {
             if (sortMode === "high-low") {return b.amount - a.amount;}
             return 0;
         });
-
         return sortedList;
     }
 
@@ -89,7 +88,6 @@ const State = (function () {
             displayAmount = displayAmount / settings.usdRate;
             digits = 2;
         }
-
         if (settings.currency === "UGX") {
             displayAmount = displayAmount * settings.ugxRate;
         }
@@ -101,13 +99,13 @@ const State = (function () {
 
     function getTotalSpent(records) {
         let total = 0;
-
         for (let i = 0; i < records.length; i++) {
             total = total + Number(records[i].amount);
         }
 
         return total;
     }
+
 
     function getCategoryTotals(records) {
         const totals = {};
@@ -121,7 +119,6 @@ const State = (function () {
 
             totals[category] = totals[category] + Number(records[i].amount);
         }
-
         return totals;
     }
 
@@ -156,7 +153,6 @@ const State = (function () {
                 total: 0
             });
         }
-
         for (let i = 0; i < records.length; i++) {
             for (let j = 0; j < days.length; j++) {
                 if (records[i].date === days[j].date) {
@@ -164,7 +160,6 @@ const State = (function () {
                 }
             }
         }
-
         return days;
     }
 
@@ -191,11 +186,11 @@ const State = (function () {
         }
 
         if (!settings.ugxRate || settings.ugxRate <= 0) {
-            return "Enter a valid UGX rate.";
+            return "Enter a valid ugx rate.";
         }
 
         if (!settings.usdRate || settings.usdRate <= 0) {
-            return "Enter a valid USD rate.";
+            return "Enter a valid usd rate.";
         }
 
         return "";
@@ -260,6 +255,7 @@ const State = (function () {
 
     return {
         getDefaultSettings: getDefaultSettings,
+
         makeRecordId: makeRecordId,
         findRecordById: findRecordById,
         addRecord: addRecord,
@@ -267,10 +263,12 @@ const State = (function () {
         deleteRecord: deleteRecord,
         sortRecords: sortRecords,
         getRecentRecords: getRecentRecords,
+
         formatMoney: formatMoney,
         getTotalSpent: getTotalSpent,
         getCategoryTotals: getCategoryTotals,
         getTopCategory: getTopCategory,
+
         getLastSevenDays: getLastSevenDays,
         prepareSettings: prepareSettings,
         validateSettings: validateSettings,
